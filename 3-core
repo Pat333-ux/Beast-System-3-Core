@@ -1,0 +1,7 @@
+/src
+    /engine
+    /lifecycle
+    /events
+    /loader
+/tests
+/docs
