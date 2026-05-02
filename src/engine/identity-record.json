@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/identity/identity-record.json",
+  "title": "IdentityRecord",
+  "description": "Canonical identity object for persons, organizations, ministries, and autonomous agents within Beast System 3.0.",
+
+  "type": "object",
+
+  "properties": {
+    "identity_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this identity."
+    },
+
+    "identity_type": {
+      "type": "string",
+      "enum": [
+        "person",
+        "organization",
+        "ministry",
+        "task_force",
+        "autonomous_agent",
+        "governance_engine",
+        "credential_authority"
+      ],
+      "description": "Classification of the identity."
+    },
+
+    "created_at": {
+      "type
