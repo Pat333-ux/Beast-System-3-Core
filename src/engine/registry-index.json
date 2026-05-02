@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/registry/registry-index.json",
+  "title": "RegistryIndex",
+  "description": "Master index for all registry entries, chains, anchors, and lineage within the Universal Registry Fabric (URF-S).",
+
+  "type": "object",
+
+  "properties": {
+    "index_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this registry index instance."
+    },
+
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the registry
