@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/identity/identity-attributes.json",
+  "title": "IdentityAttributes",
+  "description": "Structured attribute model for identities within the Sovereign Identity Kernel (SIK-3).",
+
+  "type": "object",
+
+  "properties": {
+    "rank": {
+      "type": "string",
+      "description": "Rank or standing of the identity within the system."
+    },
+
+    "class": {
+      "type": "string",
+      "enum": [
+        "SAIA-Class-S",
+        "SAIA-Class-C",
+        "SAIA-Class-A",
+        "SAIA-Class-B",
+        "none"
+      ],
+      "description": "Classification level of the identity."
+    },
+
+    "status": {
+      "type": "string",
+      "enum": ["active", "inactive", "revoked", "archived"],
+      "description": "Operational status of the identity."
+    },
+
+    "roles": {
+      "type": "array",
+      "description": "Roles assigned to the identity.",
+      "items": { "type": "string" }
+    },
+
+    "permissions": {
