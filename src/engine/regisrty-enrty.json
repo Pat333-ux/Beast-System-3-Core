@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/registry/registry-entry.json",
+  "title": "RegistryEntry",
+  "description": "Atomic unit of the Universal Registry Fabric (URF-S). Represents a single immutable registry record.",
+
+  "type": "object",
+
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this registry entry."
+    },
+
+    "entry_type": {
+      "type": "string",
+      "description": "Type/category of the registry entry (e.g., identity, governance_action, doctrine_rule, predictive_output)."
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the entry was created."
+    },
+
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the entry was last updated."
+    },
+
+    "payload": {
+      "type": "object",
+      "description": "The full content of the registry entry. Structure varies by entry_type."
+    },
+
+    "anchor": {
+      "type": "object",
+      "description": "Anchor binding this entry to an immutable reference point.",
+      "properties": {
+        "anchor_id": { "type": "string" },
+        "hash": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["anchor_id", "hash"]
+    },
+
+    "chain": {
+      "type": "object",
+      "description": "Chain membership information for this entry.",
+      "properties": {
+        "chain_id": { "type": "string" },
+        "position": { "type": "number" },
+        "previous_entry_id": { "type": "string" },
+        "next_entry_id": { "type": "string" }
+      },
+      "required": ["chain_id"]
+    },
+
+    "lineage": {
+      "type": "object",
+      "description": "Lineage information showing how this entry relates to earlier or later versions.",
+      "properties": {
+        "parent_entry_id": { "type": "string" },
+        "child_entry_id": { "type": "string" },
+        "relationship_type": { "type": "string" }
+      }
+    },
+
+    "signature": {
+      "type": "object",
+      "description": "Cryptographic signature ensuring authenticity and integrity.",
+      "properties": {
+        "algorithm": { "type": "string" },
+        "value": { "type": "string" }
+      },
+      "required": ["algorithm", "value"]
+    }
+  },
+
+  "required": [
+    "entry_id",
+    "entry_type",
+    "created_at",
+    "payload",
+    "anchor",
+    "chain",
+    "signature"
+  ]
+}
