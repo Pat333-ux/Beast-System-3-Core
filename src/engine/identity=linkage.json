@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/identity/identity-linkage.json",
+  "title": "IdentityLinkage",
+  "description": "Defines hierarchical, relational, and lineage-based identity connections within the Sovereign Identity Kernel (SIK-3).",
+
+  "type": "object",
+
+  "properties": {
+    "linkage_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this linkage record."
+    },
+
+    "identity_id": {
+      "type": "string",
+      "description": "The identity whose relationships are being defined."
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the linkage record was created or updated."
+    },
+
+    "parent": {
+      "type": "object",
+      "description": "Parent identity in the hierarchy.",
+      "properties
