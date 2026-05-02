@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/registry/registry-query.json",
+  "title": "RegistryQuery",
+  "description": "Query interface for retrieving entries, anchors, chains, and lineage from the Universal Registry Fabric (URF-S).",
+
+  "type": "object",
+
+  "properties": {
+    "query_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this query request."
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the query was executed."
+    },
+
+    "filters": {
+      "type": "object",
+      "description": "Filtering conditions applied to the registry query.",
+      "properties": {
+        "entry_id": { "type": "string" },
+        "entry_type": { "type": "string" },
+        "chain_id": { "type": "string" },
+        "anchor_id": { "type": "string" },
+        "signature_id": { "type": "
