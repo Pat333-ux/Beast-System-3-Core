@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/registry/registry-event.json",
+  "title": "RegistryEvent",
+  "description": "Canonical event object emitted into the Universal Registry Fabric (URF-S).",
+
+  "type": "object",
+
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this event."
+    },
+
+    "event_type": {
+      "type": "string",
+      "description": "Type/category of the event (e.g., governance_action, identity_update, predictive_output, wellbeing_pathway, doctrine_update, registry_operation)."
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the event occurred."
+    },
+
+    "actor": {
+      "type": "object",
+      "description": "Identity or subsystem responsible for generating the event.",
+      "properties": {
+        "actor_id": { "type": "string" },
+        "actor_type": {
+          "type": "string",
+          "enum": [
+            "identity",
+            "governance_kernel",
+            "predictive_engine",
+            "wellbeing_engine",
+            "identity_kernel",
+            "doctrine_compiler",
+            "registry_service",
+            "audit_layer"
