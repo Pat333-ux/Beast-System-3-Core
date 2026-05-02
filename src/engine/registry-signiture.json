@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/registry/registry-signature.json",
+  "title": "RegistrySignature",
+  "description": "Canonical cryptographic signature object used across the Universal Registry Fabric (URF-S).",
+
+  "type": "object",
+
+  "properties": {
+    "signature_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this signature object."
+    },
+
+    "algorithm": {
+      "type": "string",
+      "description": "Cryptographic algorithm used to generate the signature (e.g., SHA-256, SHA-3, Ed25519)."
+    },
+
+    "value": {
+      "type": "string",
+      "description": "The cryptographic signature value."
+    },
+
+    "public_key": {
+      "type": "string",
+      "description": "Public key associated with the signature, if applicable."
+    },
+
+    "signed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the signature was generated."
+    },
+
+    "signer": {
+      "type": "object",
+      "description": "Information about the entity that generated the signature.",
+      "properties": {
+        "signer_id": { "type": "string" },
+        "signer_type": {
+          "type": "string",
+          "enum": [
+            "identity",
+            "governance_kernel",
+            "
