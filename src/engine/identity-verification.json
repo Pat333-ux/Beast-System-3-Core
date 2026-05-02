@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/identity/identity-verification.json",
+  "title": "IdentityVerification",
+  "description": "Verification rules and validation results for identities within the Sovereign Identity Kernel (SIK-3).",
+
+  "type": "object",
+
+  "properties": {
+    "verification_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this verification record."
+    },
+
+    "identity_id": {
+      "type": "string",
+      "description": "ID of the identity being verified."
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the verification was performed."
+    },
+
+    "checks": {
+      "type": "object",
+      "description": "Verification checks performed on the identity.",
+      "properties": {
+        "record_integrity": {
+          "type": "string",
+          "enum": ["valid", "invalid", "tampered"],
+          "description": "Whether the identity-record is structurally and cryptographically valid."
+        },
+        "attribute_consistency": {
+          "type": "string",
+          "enum": ["consistent", "inconsistent"],
+          "description": "Whether identity-attributes match the identity-record."
+        },
+        "credential_validation": {
+          "type": "string",
