@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/identity/identity-signature.json",
+  "title": "IdentitySignature",
+  "description": "Identity-specific cryptographic signature object for the Sovereign Identity Kernel (SIK-3).",
+
+  "type": "object",
+
+  "properties": {
+    "signature_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this identity signature."
+    },
+
+    "identity_id": {
+      "type": "string",
+      "description": "ID of the identity associated with this signature."
+    },
+
+    "algorithm": {
+      "type": "string",
+      "description": "Cryptographic algorithm used to generate the signature (e.g., Ed25519, SHA-3, RSA-4096)."
+    },
+
+    "value": {
+      "type": "string",
+      "description": "The cryptographic signature value."
+    },
+
+    "public_key": {
+      "type": "string",
+      "description": "Public key associated with the identity, if applicable."
+    },
+
+    "signed_at": {
+      "type": "string",
+      "format": "date
