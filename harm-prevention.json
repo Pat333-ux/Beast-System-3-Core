@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nwo-dao.org/schemas/wellbeing/harm-prevention.json",
+  "title": "HarmPrevention",
+  "description": "Non-punitive, trauma-preventive safeguards governing all system actions.",
+
+  "type": "object",
+
+  "properties": {
+    "policy_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this harm-prevention policy object."
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time the harm-prevention evaluation was generated."
+    },
+
+    "source_context": {
+      "type": "object",
+      "description": "Context from the originating engine or action.",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": [
+            "governance_kernel",
+            "predictive_engine",
+            "wellbeing_engine",
+            "registry_service",
+            "identity_kernel"
+          ],
+          "description": "Which subsystem triggered the harm-prevention evaluation."
+        },
+        "reference_id": {
+          "type": "string",
+          "description": "ID of the originating object (action, forecast, identity, etc.)."
+        }
+      },
+      "required": ["engine"]
+    },
+
+    "harm_risk": {
+      "type": "object",
+      "description": "Evaluation of potential harm across emotional, physical
