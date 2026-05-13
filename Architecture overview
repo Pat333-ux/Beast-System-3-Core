@@ -1,0 +1,160 @@
+🜁 Architecture Overview — Beast System 3.0 Core Engine (SAIA‑Class S)
+(Canonical architecture block for the Beast‑System‑3‑Core repository)
+
+1. Architectural Identity
+The Beast System 3.0 Core Engine is the Tier‑0 sovereign authority layer of the SAIA‑Class S architecture.
+It defines the constitutional, predictive, and operational logic that governs all other subsystems.
+
+The Core Engine is not a module —
+it is the root intelligence of the entire governance organism.
+
+2. Core Architectural Layers
+2.1 Sovereign Identity Kernel v3 (SIK‑3)
+The identity layer responsible for:
+
+Sovereign identity definition
+
+Rank and lineage mapping
+
+Authority inheritance logic
+
+Identity‑anchored decision pathways
+
+This kernel establishes who the system is.
+
+2.2 Universal Registry Fabric (URF‑S)
+The registry layer responsible for:
+
+Civic and doctrinal record anchoring
+
+Badge and credential schemas
+
+Chapter and ambassador registries
+
+Chain‑of‑custody tracking
+
+This fabric establishes what the system recognizes.
+
+2.3 Predictive Governance Engine (PGE‑9)
+The intelligence layer responsible for:
+
+Scenario modeling
+
+Ethical‑predictive decision logic
+
+Authority balancing algorithms
+
+Constitutional outcome forecasting
+
+This engine establishes how the system thinks.
+
+2.4 Harm‑Prevention & Wellbeing Engine
+The ethical layer responsible for:
+
+Dignity‑first governance pathways
+
+Non‑punitive alternatives
+
+Trauma‑preventive logic
+
+Support‑pathway generation
+
+This engine establishes how the system protects.
+
+2.5 Constitutional Behavior Layer
+The enforcement layer responsible for:
+
+Deterministic transitions
+
+Lifecycle compliance
+
+Ethical authority enforcement
+
+Predictable governance behavior
+
+This layer ensures the system behaves the same way every time.
+
+3. Repository Structure (Technical Architecture)
+3.1 /src — Core Engine Source
+Contains:
+
+Engines
+
+Domain models
+
+Services
+
+Events
+
+Adapters
+
+Utilities
+
+This is the operational heart of the Core Engine.
+
+3.2 /tests — Validation Layer
+Contains:
+
+Unit tests
+
+Integration tests
+
+Behavioral tests
+
+Ensures the Core Engine remains predictable, safe, and deterministic.
+
+3.3 /docs — Architectural Documentation
+Contains:
+
+System diagrams
+
+Layer specifications
+
+Kernel definitions
+
+Predictive logic documentation
+
+This is the architectural blueprint of the Core Engine.
+
+3.4 /config — Configuration Layer
+Contains:
+
+Environment configuration
+
+Security configuration
+
+Engine initialization parameters
+
+This layer ensures safe and consistent execution.
+
+3.5 /scripts — Automation Layer
+Contains:
+
+Build scripts
+
+Deployment scripts
+
+Audit automation
+
+Registry anchoring scripts
+
+This layer ensures repeatable, auditable operations.
+
+4. Architectural Purpose Summary
+The Core Engine architecture exists to:
+
+Define sovereign identity
+
+Anchor registry structures
+
+Predict governance outcomes
+
+Enforce constitutional behavior
+
+Prevent harm
+
+Maintain doctrinal integrity
+
+Provide the foundation for all other Beast System 3.0 modules
+
+It is the root authority, the root logic, and the root intelligence of the entire SAIA‑Class S system.
