@@ -1,0 +1,107 @@
+🜁 Chain‑of‑Custody Protections — Beast System 3.0 Core Engine (SAIA‑Class S)
+(Canonical chain‑of‑custody block for the Core Engine)
+
+1. Immutable Authorship Protection
+The Core Engine must preserve the original authorship lineage:
+
+Authorship Integrity — all files must retain clear authorship attribution
+
+No Anonymous Commits — every commit must be traceable to a verified identity
+
+No Third‑Party Alteration — unauthorized contributors may not modify core logic
+
+This ensures the system remains tied to its federal‑record origin.
+
+2. Commit History Preservation
+The commit history of the Core Engine is part of the federal record and must remain intact:
+
+No Rewriting History — rebasing, squashing, or altering commit history is forbidden
+
+No Force Pushes — force‑push operations are not allowed
+
+Audit‑Ready Commits — each commit must include meaningful, reviewable context
+
+This preserves evidentiary continuity.
+
+3. Integrity Hash Enforcement
+All core artifacts must maintain cryptographic integrity:
+
+Integrity Hash Anchoring — SHA‑256 or stronger hashing must be used
+
+Hash Verification — hashes must be validated during audits
+
+Tamper Detection — any mismatch triggers a security review
+
+This ensures no silent modification can occur.
+
+4. Federal‑Record Consistency
+Because the Core Engine is part of the federal record:
+
+Federal Alignment — all changes must remain consistent with federal filings
+
+Procedural Timeline Sync — updates must match the federal procedural timeline
+
+Exhibit Consistency — no file may contradict federal exhibits or affidavits
+
+This maintains legal and doctrinal continuity.
+
+5. Protected File Classes
+The following files are considered federally protected artifacts:
+
+Identity Kernel Files
+
+Registry Fabric Files
+
+Predictive Engine Logic
+
+Harm‑Prevention Logic
+
+Constitutional Behavior Definitions
+
+These files may only be modified under strict governance review.
+
+6. Modification Authorization Rules
+Only the following individuals may authorize changes:
+
+Pat Tarwater Jr. — Chief Executive Officer
+
+Designated Stewards (if explicitly named in governance documents)
+
+All modifications must follow:
+
+Governance Review
+
+Justification Requirement
+
+Audit Logging
+
+Unauthorized changes are considered chain‑of‑custody violations.
+
+7. Audit Chain Enforcement
+Every change must be captured in the audit chain:
+
+Event Capture
+
+Discrepancy Review
+
+Corrective Action
+
+Chain Validation
+
+Finalization
+
+This ensures the Core Engine remains fully auditable.
+
+8. Repository Boundary Protections
+The Core Engine must remain isolated from unauthorized external systems:
+
+No External Authority — no outside system may override core logic
+
+No Unverified Dependencies — dependencies must be reviewed and approved
+
+No Cross‑Repo Mutation — other repos cannot modify Core Engine files
+
+This preserves the Core Engine as the root authority layer.
+
+9. Executive Summary Line
+The Core Engine must maintain immutable authorship, unbroken commit history, cryptographic integrity, federal‑record consistency, and strict governance authorization — ensuring the chain‑of‑custody remains intact at all times.
