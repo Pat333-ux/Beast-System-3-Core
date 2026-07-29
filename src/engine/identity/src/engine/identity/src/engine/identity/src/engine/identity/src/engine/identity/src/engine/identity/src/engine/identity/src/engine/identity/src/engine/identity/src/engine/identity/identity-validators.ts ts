@@ -1,0 +1,177 @@
+// Beast System 3.0 — Sovereign Identity Kernel v3
+// Module: IdentityValidators
+// Purpose: Structural validation for identities, badges, DIDs, wallets,
+// metadata, and governance constraints. Ensures integrity across all identity subsystems.
+
+import { ethers } from "ethers";
+import {
+  SovereignIdentity,
+  IdentityBadge,
+  Did,
+  WalletAddress,
+  IdentityStatus,
+} from "./identity-manager";
+
+import { IdentityError } from "./identity-errors";
+import { MetadataValidator } from "./identity-metadata";
+
+export class IdentityValidators {
+  private readonly metadataValidator: MetadataValidator;
+
+  constructor(metadataValidator: MetadataValidator) {
+    this.metadataValidator = metadataValidator;
+  }
+
+  /**
+   * Validate DID format.
+   */
+  validateDid(did: Did): void {
+    if (!did || typeof did !== "string") {
+      throw new IdentityError("INVALID_DID", "DID must be a string.", { did });
+    }
+
+    if (!did.startsWith("did:")) {
+      throw new IdentityError("INVALID_DID_FORMAT", "DID must start with 'did:'.", { did });
+    }
+
+    const parts = did.split(":");
+    if (parts.length < 4) {
+      throw new IdentityError(
+        "INVALID_DID_FORMAT",
+        "DID must follow format did:<namespace>:<system>:<wallet>.",
+        { did }
+      );
+    }
+  }
+
+  /**
+   * Validate wallet address.
+   */
+  validateWallet(wallet: WalletAddress): void {
+    if (!wallet || typeof wallet !== "string") {
+      throw new IdentityError("INVALID_WALLET", "Wallet must be a string.", { wallet });
+    }
+
+    if (!ethers.isAddress(wallet)) {
+      throw new IdentityError("INVALID_WALLET_FORMAT", "Wallet is not a valid EVM address.", { wallet });
+    }
+  }
+
+  /**
+   * Validate identity status.
+   */
+  validateStatus(status: IdentityStatus): void {
+    const valid = ["active", "suspended", "revoked"];
+    if (!valid.includes(status)) {
+      throw new IdentityError(
+        "GOVERNANCE_CONSTRAINT_FAILURE",
+        `Invalid identity status '${status}'.`,
+        { status }
+      );
+    }
+  }
+
+  /**
+   * Validate badge structure.
+   */
+  validateBadge(badge: IdentityBadge): void {
+    if (!badge.id || !badge.code || !badge.issuedAt || !badge.issuer) {
+      throw new IdentityError(
+        "GOVERNANCE_CONSTRAINT_FAILURE",
+        "Badge is missing required fields.",
+        { badge }
+      );
+    }
+
+    if (badge.expiresAt && !(badge.expiresAt instanceof Date)) {
+      throw new IdentityError(
+        "GOVERNANCE_CONSTRAINT_FAILURE",
+        "Badge expiration must be a Date.",
+        { badge }
+      );
+    }
+  }
+
+  /**
+   * Validate identity metadata using governance schema.
+   */
+  validateMetadata(metadata: Record<string, unknown>): void {
+    this.metadataValidator.validate("governance", metadata);
+  }
+
+  /**
+   * Validate full identity object.
+   */
+  validateIdentity(identity: SovereignIdentity): void {
+    this.validateDid(identity.did);
+    this.validateWallet(identity.wallet);
+    this.validateStatus(identity.status);
+    this.validateMetadata(identity.metadata);
+
+    if (!(identity.createdAt instanceof Date)) {
+      throw new IdentityError(
+        "INTEGRITY_VIOLATION",
+        "Identity.createdAt must be a Date.",
+        { did: identity.did }
+      );
+    }
+
+    if (!(identity.updatedAt instanceof Date)) {
+      throw new IdentityError(
+        "INTEGRITY_VIOLATION",
+        "Identity.updatedAt must be a Date.",
+        { did: identity.did }
+      );
+    }
+
+    for (const badge of identity.badges) {
+      this.validateBadge(badge);
+    }
+  }
+
+  /**
+   * Validate DID ↔ wallet binding.
+   */
+  validateDidBinding(did: Did, wallet: WalletAddress): void {
+    const parts = did.split(":");
+    const embeddedWallet = parts[3];
+
+    if (!embeddedWallet) {
+      throw new IdentityError(
+        "INVALID_DID_FORMAT",
+        "DID does not embed a wallet address.",
+        { did }
+      );
+    }
+
+    if (embeddedWallet.toLowerCase() !== wallet.toLowerCase()) {
+      throw new IdentityError(
+        "GOVERNANCE_CONSTRAINT_FAILURE",
+        "DID is not bound to the provided wallet.",
+        { did, wallet }
+      );
+    }
+  }
+
+  /**
+   * Validate badge issuance constraints.
+   */
+  validateBadgeIssuance(identity: SovereignIdentity): void {
+    if (identity.status !== "active") {
+      throw new IdentityError(
+        "IDENTITY_NOT_ACTIVE",
+        "Cannot issue badges to suspended or revoked identities.",
+        { did: identity.did, status: identity.status }
+      );
+    }
+  }
+}
+
+/**
+ * Factory for default IdentityValidators instance.
+ */
+export function createIdentityValidators(
+  metadataValidator: MetadataValidator
+): IdentityValidators {
+  return new IdentityValidators(metadataValidator);
+}
