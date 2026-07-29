@@ -1,0 +1,75 @@
+// Beast System 3.0 — Sovereign Identity Kernel v3
+// Module: IdentityIndex
+// Purpose: Unified export surface for all identity-layer modules.
+// This file allows the entire Identity Layer to be imported cleanly
+// as a cohesive subsystem within Beast System 3.0.
+
+export * from "./identity-manager";
+export * from "./identity-registry";
+export * from "./badge-engine";
+export * from "./wallet-verification";
+export * from "./civic-artifact-anchor";
+export * from "./identity-events";
+export * from "./identity-errors";
+export * from "./identity-metadata";
+export * from "./identity-validators";
+export * from "./identity-crypto";
+export * from "./identity-serializer";
+
+/**
+ * IdentityLayerBootstrap
+ * Provides a ready-to-use, fully wired identity subsystem.
+ */
+
+import { createDefaultIdentityManager } from "./identity-manager";
+import { createIdentityRegistry } from "./identity-registry";
+import { createBadgeEngine } from "./badge-engine";
+import { createWalletVerification } from "./wallet-verification";
+import { createCivicArtifactAnchor } from "./civic-artifact-anchor";
+import { createIdentityEventBus } from "./identity-events";
+import { createMetadataValidator } from "./identity-metadata";
+import { createIdentityValidators } from "./identity-validators";
+import { createIdentityCrypto } from "./identity-crypto";
+import { createIdentitySerializer } from "./identity-serializer";
+
+export interface IdentityLayer {
+  manager: ReturnType<typeof createDefaultIdentityManager>;
+  registry: ReturnType<typeof createIdentityRegistry>;
+  badges: ReturnType<typeof createBadgeEngine>;
+  wallet: ReturnType<typeof createWalletVerification>;
+  artifacts: ReturnType<typeof createCivicArtifactAnchor>;
+  events: ReturnType<typeof createIdentityEventBus>;
+  metadata: ReturnType<typeof createMetadataValidator>;
+  validators: ReturnType<typeof createIdentityValidators>;
+  crypto: ReturnType<typeof createIdentityCrypto>;
+  serializer: ReturnType<typeof createIdentitySerializer>;
+}
+
+/**
+ * Bootstrap the full identity layer.
+ */
+export function bootstrapIdentityLayer(): IdentityLayer {
+  const registry = createIdentityRegistry();
+  const metadata = createMetadataValidator();
+  const validators = createIdentityValidators(metadata);
+  const crypto = createIdentityCrypto();
+  const serializer = createIdentitySerializer();
+  const wallet = createWalletVerification();
+  const manager = createDefaultIdentityManager();
+  const badges = createBadgeEngine(registry);
+  const artifacts = createCivicArtifactAnchor(wallet);
+  const events = createIdentityEventBus();
+
+  return {
+    manager,
+    registry,
+    badges,
+    wallet,
+    artifacts,
+    events,
+    metadata,
+    validators,
+    crypto,
+    serializer,
+  };
+}
