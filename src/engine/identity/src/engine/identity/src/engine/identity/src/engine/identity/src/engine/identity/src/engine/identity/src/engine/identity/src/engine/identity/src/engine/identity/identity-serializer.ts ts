@@ -1,0 +1,179 @@
+// Beast System 3.0 — Sovereign Identity Kernel v3
+// Module: IdentitySerializer
+// Purpose: Deterministic serialization of identities, badges, events, and civic artifacts.
+// Ensures federal-record alignment, chain-of-custody integrity, and canonical export formats.
+
+import {
+  SovereignIdentity,
+  IdentityBadge,
+  Did,
+  WalletAddress,
+} from "./identity-manager";
+
+import { IdentityEvent } from "./identity-events";
+import { CivicArtifact } from "./civic-artifact-anchor";
+
+export interface SerializedIdentity {
+  did: Did;
+  wallet: WalletAddress;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  badges: SerializedBadge[];
+  metadata: Record<string, unknown>;
+}
+
+export interface SerializedBadge {
+  id: string;
+  code: string;
+  issuedAt: string;
+  expiresAt?: string;
+  issuer: Did;
+  metadata?: Record<string, unknown>;
+}
+
+export interface SerializedEvent {
+  id: string;
+  type: string;
+  timestamp: string;
+  did?: Did;
+  wallet?: WalletAddress;
+  payload: Record<string, unknown>;
+  metadata?: Record<string, unknown>;
+}
+
+export interface SerializedArtifact {
+  id: string;
+  title: string;
+  description?: string;
+  contentHash: string;
+  anchoredBy: Did;
+  anchoredWallet: WalletAddress;
+  anchoredAt: string;
+  signature: string;
+  metadata: Record<string, unknown>;
+}
+
+export class IdentitySerializer {
+  /**
+   * Serialize a SovereignIdentity into a canonical JSON-safe structure.
+   */
+  serializeIdentity(identity: SovereignIdentity): SerializedIdentity {
+    return {
+      did: identity.did,
+      wallet: identity.wallet,
+      status: identity.status,
+      createdAt: identity.createdAt.toISOString(),
+      updatedAt: identity.updatedAt.toISOString(),
+      badges: identity.badges.map((b) => this.serializeBadge(b)),
+      metadata: identity.metadata,
+    };
+  }
+
+  /**
+   * Serialize a badge.
+   */
+  serializeBadge(badge: IdentityBadge): SerializedBadge {
+    return {
+      id: badge.id,
+      code: badge.code,
+      issuedAt: badge.issuedAt.toISOString(),
+      expiresAt: badge.expiresAt ? badge.expiresAt.toISOString() : undefined,
+      issuer: badge.issuer,
+      metadata: badge.metadata,
+    };
+  }
+
+  /**
+   * Serialize an identity event.
+   */
+  serializeEvent(event: IdentityEvent): SerializedEvent {
+    return {
+      id: event.id,
+      type: event.type,
+      timestamp: event.timestamp.toISOString(),
+      did: event.did,
+      wallet: event.wallet,
+      payload: event.payload as Record<string, unknown>,
+      metadata: event.metadata ?? {},
+    };
+  }
+
+  /**
+   * Serialize a civic artifact.
+   */
+  serializeArtifact(artifact: CivicArtifact): SerializedArtifact {
+    return {
+      id: artifact.id,
+      title: artifact.title,
+      description: artifact.description,
+      contentHash: artifact.contentHash,
+      anchoredBy: artifact.anchoredBy,
+      anchoredWallet: artifact.anchoredWallet,
+      anchoredAt: artifact.anchoredAt.toISOString(),
+      signature: artifact.signature,
+      metadata: artifact.metadata,
+    };
+  }
+
+  /**
+   * Export identity as JSON string.
+   */
+  exportIdentity(identity: SovereignIdentity): string {
+    return JSON.stringify(this.serializeIdentity(identity), null, 2);
+  }
+
+  /**
+   * Export event as JSON string.
+   */
+  exportEvent(event: IdentityEvent): string {
+    return JSON.stringify(this.serializeEvent(event), null, 2);
+  }
+
+  /**
+   * Export artifact as JSON string.
+   */
+  exportArtifact(artifact: CivicArtifact): string {
+    return JSON.stringify(this.serializeArtifact(artifact), null, 2);
+  }
+
+  /**
+   * Export multiple identities.
+   */
+  exportIdentityList(identities: SovereignIdentity[]): string {
+    return JSON.stringify(
+      identities.map((i) => this.serializeIdentity(i)),
+      null,
+      2
+    );
+  }
+
+  /**
+   * Export multiple events.
+   */
+  exportEventList(events: IdentityEvent[]): string {
+    return JSON.stringify(
+      events.map((e) => this.serializeEvent(e)),
+      null,
+      2
+    );
+  }
+
+  /**
+   * Export multiple artifacts.
+   */
+  exportArtifactList(artifacts: CivicArtifact[]): string {
+    return JSON.stringify(
+      artifacts.map((a) => this.serializeArtifact(a)),
+      null,
+      2
+    );
+  }
+}
+
+/**
+ * Factory for default serializer instance.
+ */
+export function createIdentitySerializer(): IdentitySerializer {
+  return new IdentitySerializer();
+}
