@@ -1,0 +1,118 @@
+// Beast System 3.0 — Sovereign Identity Kernel v3
+// Module: IdentityRouter
+// Purpose: HTTP routing layer for identity operations, badge issuance,
+// artifact anchoring, wallet verification, and event listing.
+
+import express, { Request, Response } from "express";
+import { IdentityAPI } from "./identity-api";
+import { IdentityService } from "./identity-service";
+import { IdentitySubsystem } from "./identity-bootstrap";
+import { IdentityStorageAdapter } from "./identity-storage";
+
+export function createIdentityRouter(
+  subsystem: IdentitySubsystem,
+  storage: IdentityStorageAdapter
+): express.Router {
+  const router = express.Router();
+  const api = new IdentityAPI(subsystem);
+  const service = new IdentityService(subsystem, storage);
+
+  /**
+   * Helper: send API responses
+   */
+  const send = (res: Response, result: any) => {
+    if (result.ok === false) {
+      res.status(400).json(result);
+    } else {
+      res.json(result);
+    }
+  };
+
+  // ------------------------------------------------------------
+  // Identity Creation
+  // ------------------------------------------------------------
+  router.post("/identity", async (req: Request, res: Response) => {
+    const { wallet, metadata } = req.body;
+
+    const result = await api.createIdentity(wallet, metadata ?? {});
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // Identity Retrieval
+  // ------------------------------------------------------------
+  router.get("/identity/:did", async (req: Request, res: Response) => {
+    const result = await api.getIdentity(req.params.did);
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // Badge Issuance
+  // ------------------------------------------------------------
+  router.post("/identity/:did/badge", async (req: Request, res: Response) => {
+    const { did } = req.params;
+    const { wallet, signature, message, nonce, code, metadata } = req.body;
+
+    const result = await api.issueBadge({
+      ctx: { did, wallet, signature, message, nonce, metadata },
+      payload: { code, metadata },
+    });
+
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // Artifact Anchoring
+  // ------------------------------------------------------------
+  router.post("/identity/:did/artifact", async (req: Request, res: Response) => {
+    const { did } = req.params;
+    const { wallet, signature, message, nonce, title, description, content } =
+      req.body;
+
+    const result = await api.anchorArtifact({
+      ctx: { did, wallet, signature, message, nonce },
+      payload: { title, description, content },
+    });
+
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // Wallet Verification
+  // ------------------------------------------------------------
+  router.post("/verify", async (req: Request, res: Response) => {
+    const { did, wallet, signature, message, nonce } = req.body;
+
+    const result = await api.verifyWallet({
+      ctx: { did, wallet, signature, message, nonce },
+    });
+
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // List Identities
+  // ------------------------------------------------------------
+  router.get("/identities", async (_req: Request, res: Response) => {
+    const result = await api.listIdentities();
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // List Events
+  // ------------------------------------------------------------
+  router.get("/events", async (_req: Request, res: Response) => {
+    const result = await api.listEvents();
+    send(res, result);
+  });
+
+  // ------------------------------------------------------------
+  // List Artifacts
+  // ------------------------------------------------------------
+  router.get("/artifacts", async (_req: Request, res: Response) => {
+    const artifacts = await service.listArtifacts();
+    res.json({ ok: true, data: artifacts });
+  });
+
+  return router;
+}
