@@ -1,0 +1,141 @@
+// Beast System 3.0 — Sovereign Identity Kernel v3
+// Module: IdentityBootstrap
+// Purpose: High-level initialization and wiring of the entire Identity Layer.
+// Provides a fully configured, governance-aligned identity subsystem ready for use.
+
+import {
+  createDefaultIdentityManager,
+  createIdentityRegistry,
+  createBadgeEngine,
+  createWalletVerification,
+  createCivicArtifactAnchor,
+  createIdentityEventBus,
+  createMetadataValidator,
+  createIdentityValidators,
+  createIdentityCrypto,
+  createIdentitySerializer,
+} from "./identity-index";
+
+import {
+  createGovernanceMetadata,
+  ensureGovernanceMetadata,
+  normalizeWallet,
+  generateDid,
+} from "./identity-utils";
+
+import { SovereignIdentity } from "./identity-manager";
+
+export interface IdentityBootstrapConfig {
+  autoGovernanceMetadata?: boolean;
+  autoDidGeneration?: boolean;
+  autoWalletNormalization?: boolean;
+}
+
+export interface IdentitySubsystem {
+  manager: ReturnType<typeof createDefaultIdentityManager>;
+  registry: ReturnType<typeof createIdentityRegistry>;
+  badges: ReturnType<typeof createBadgeEngine>;
+  wallet: ReturnType<typeof createWalletVerification>;
+  artifacts: ReturnType<typeof createCivicArtifactAnchor>;
+  events: ReturnType<typeof createIdentityEventBus>;
+  metadata: ReturnType<typeof createMetadataValidator>;
+  validators: ReturnType<typeof createIdentityValidators>;
+  crypto: ReturnType<typeof createIdentityCrypto>;
+  serializer: ReturnType<typeof createIdentitySerializer>;
+  config: IdentityBootstrapConfig;
+}
+
+export function bootstrapIdentitySubsystem(
+  config: IdentityBootstrapConfig = {}
+): IdentitySubsystem {
+  const registry = createIdentityRegistry();
+  const metadata = createMetadataValidator();
+  const validators = createIdentityValidators(metadata);
+  const crypto = createIdentityCrypto();
+  const serializer = createIdentitySerializer();
+  const wallet = createWalletVerification();
+  const manager = createDefaultIdentityManager();
+  const badges = createBadgeEngine(registry);
+  const artifacts = createCivicArtifactAnchor(wallet);
+  const events = createIdentityEventBus();
+
+  return {
+    manager,
+    registry,
+    badges,
+    wallet,
+    artifacts,
+    events,
+    metadata,
+    validators,
+    crypto,
+    serializer,
+    config,
+  };
+}
+
+/**
+ * Create a fully-governance-aligned identity using bootstrap settings.
+ */
+export function createGovernedIdentity(
+  subsystem: IdentitySubsystem,
+  wallet: string,
+  metadataPatch: Record<string, unknown> = {}
+): SovereignIdentity {
+  const normalizedWallet = subsystem.config.autoWalletNormalization
+    ? normalizeWallet(wallet)
+    : wallet;
+
+  const did = subsystem.config.autoDidGeneration
+    ? generateDid(normalizedWallet)
+    : `did:nwo:beast:${normalizedWallet}`;
+
+  const baseMetadata = subsystem.config.autoGovernanceMetadata
+    ? createGovernanceMetadata()
+    : {};
+
+  const metadata = {
+    ...baseMetadata,
+    ...metadataPatch,
+  };
+
+  const identity = subsystem.manager.createIdentity(normalizedWallet, did, metadata);
+
+  ensureGovernanceMetadata(identity);
+
+  subsystem.registry.register(identity);
+
+  subsystem.events.emit(
+    subsystem.events.createEvent("identity.created", {
+      did: identity.did,
+      wallet: identity.wallet,
+      metadata,
+    })
+  );
+
+  return identity;
+}
+
+/**
+ * Wire badge issuance into event bus + registry.
+ */
+export function wireBadgeEvents(subsystem: IdentitySubsystem): void {
+  subsystem.events.on("badge.issued", (event) => {
+    const identity = subsystem.registry.getByDid(event.did!);
+    if (identity) subsystem.registry.register(identity);
+  });
+
+  subsystem.events.on("badge.revoked", (event) => {
+    const identity = subsystem.registry.getByDid(event.did!);
+    if (identity) subsystem.registry.register(identity);
+  });
+}
+
+/**
+ * Wire artifact anchoring into event bus.
+ */
+export function wireArtifactEvents(subsystem: IdentitySubsystem): void {
+  subsystem.events.on("artifact.anchored", (event) => {
+    // Future: anchor artifact metadata into registry or governance logs
+  });
+}
