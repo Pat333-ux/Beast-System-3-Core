@@ -1,0 +1,199 @@
+// Beast System 3.0 — Sovereign Identity Kernel v3
+// Module: IdentityEvents
+// Purpose: Typed event bus for identity lifecycle events, badge events,
+// wallet verification events, and civic artifact anchoring.
+// Supports audit replay, event serialization, and governance-aligned metadata.
+
+import { EventEmitter } from "events";
+import { Did, WalletAddress, IdentityBadge, IdentityStatus } from "./identity-manager";
+
+export type IdentityEventType =
+  | "identity.created"
+  | "identity.updated"
+  | "identity.suspended"
+  | "identity.revoked"
+  | "badge.issued"
+  | "badge.revoked"
+  | "wallet.verified"
+  | "artifact.anchored";
+
+export interface IdentityEventBase {
+  id: string;
+  type: IdentityEventType;
+  timestamp: Date;
+  did?: Did;
+  wallet?: WalletAddress;
+  metadata?: Record<string, unknown>;
+}
+
+/**
+ * Event payload definitions
+ */
+
+export interface IdentityCreatedPayload {
+  did: Did;
+  wallet: WalletAddress;
+  metadata: Record<string, unknown>;
+}
+
+export interface IdentityUpdatedPayload {
+  did: Did;
+  patch: Record<string, unknown>;
+}
+
+export interface IdentityStatusPayload {
+  did: Did;
+  status: IdentityStatus;
+  reason?: string;
+}
+
+export interface BadgeIssuedPayload {
+  did: Did;
+  badge: IdentityBadge;
+}
+
+export interface BadgeRevokedPayload {
+  did: Did;
+  badgeId: string;
+  reason?: string;
+}
+
+export interface WalletVerifiedPayload {
+  wallet: WalletAddress;
+  did?: Did;
+  valid: boolean;
+  reason?: string;
+}
+
+export interface ArtifactAnchoredPayload {
+  did: Did;
+  wallet: WalletAddress;
+  artifactId: string;
+  title: string;
+}
+
+/**
+ * Union type for all event payloads
+ */
+
+export type IdentityEventPayload =
+  | IdentityCreatedPayload
+  | IdentityUpdatedPayload
+  | IdentityStatusPayload
+  | BadgeIssuedPayload
+  | BadgeRevokedPayload
+  | WalletVerifiedPayload
+  | ArtifactAnchoredPayload;
+
+/**
+ * Full event object
+ */
+
+export interface IdentityEvent extends IdentityEventBase {
+  payload: IdentityEventPayload;
+}
+
+/**
+ * Identity Event Bus
+ */
+
+export class IdentityEventBus {
+  private readonly emitter = new EventEmitter();
+  private readonly history: IdentityEvent[] = [];
+
+  /**
+   * Emit an identity event.
+   */
+  emit(event: IdentityEvent): void {
+    this.history.push(event);
+    this.emitter.emit(event.type, event);
+  }
+
+  /**
+   * Subscribe to a specific event type.
+   */
+  on<T extends IdentityEventType>(
+    type: T,
+    listener: (event: Extract<IdentityEvent, { type: T }>) => void
+  ): void {
+    this.emitter.on(type, listener);
+  }
+
+  /**
+   * Subscribe to all identity events.
+   */
+  onAny(listener: (event: IdentityEvent) => void): void {
+    this.emitter.on("identity.created", listener);
+    this.emitter.on("identity.updated", listener);
+    this.emitter.on("identity.suspended", listener);
+    this.emitter.on("identity.revoked", listener);
+    this.emitter.on("badge.issued", listener);
+    this.emitter.on("badge.revoked", listener);
+    this.emitter.on("wallet.verified", listener);
+    this.emitter.on("artifact.anchored", listener);
+  }
+
+  /**
+   * Retrieve full event history.
+   */
+  getHistory(): IdentityEvent[] {
+    return [...this.history];
+  }
+
+  /**
+   * Export history for federal-record anchoring.
+   */
+  exportHistory(): string {
+    return JSON.stringify(
+      this.history.map((e) => ({
+        id: e.id,
+        type: e.type,
+        timestamp: e.timestamp.toISOString(),
+        did: e.did,
+        wallet: e.wallet,
+        payload: e.payload,
+      })),
+      null,
+      2
+    );
+  }
+
+  /**
+   * Replay events (for audit or reconstruction).
+   */
+  replay(): void {
+    for (const event of this.history) {
+      this.emitter.emit(event.type, event);
+    }
+  }
+
+  /**
+   * Create a new event object with automatic ID + timestamp.
+   */
+  createEvent(
+    type: IdentityEventType,
+    payload: IdentityEventPayload,
+    did?: Did,
+    wallet?: WalletAddress
+  ): IdentityEvent {
+    return {
+      id: `${type}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      type,
+      timestamp: new Date(),
+      did,
+      wallet,
+      payload,
+      metadata: {
+        governanceVersion: "3.0",
+        federalCase: "2:25-cv-00484-JPH-MJD",
+      },
+    };
+  }
+}
+
+/**
+ * Factory for default event bus instance.
+ */
+export function createIdentityEventBus(): IdentityEventBus {
+  return new IdentityEventBus();
+}
