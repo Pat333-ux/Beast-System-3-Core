@@ -1,0 +1,34 @@
+{
+  "primary_guardian": {
+    "name": "primary_guardian",
+    "description": "Primary Guardian Multisig (3-of-5 recommended). Root authority for treasury, timelock override, emergency pause, oracle revocation, release signoff.",
+    "owners": [
+      "TO_FILL:owner_1_eoa_or_ens",
+      "TO_FILL:owner_2_eoa_or_ens",
+      "TO_FILL:owner_3_eoa_or_ens",
+      "TO_FILL:owner_4_eoa_or_ens",
+      "TO_FILL:owner_5_eoa_or_ens"
+    ],
+    "threshold": 3,
+    "notes": "Replace TO_FILL entries with EIP-55 checksummed 0x... addresses or ENS names (example.safe.eth). After Safe creation, replace the UUID placeholders in manifest with the Safe address."
+  },
+  "oracle_signer": {
+    "name": "oracle_signer",
+    "description": "Oracle signer multisig (2-of-3 recommended). Controls ILunarOracle metadata updates, signer rotation, staleness threshold changes.",
+    "owners": [
+      "TO_FILL:oracle_operator_eoa_or_ens",
+      "TO_FILL:org_representative_eoa_or_ens",
+      "TO_FILL:security_reviewer_eoa_or_ens"
+    ],
+    "threshold": 2
+  },
+  "emergency_pause": {
+    "name": "emergency_pause",
+    "description": "Emergency pause multisig (2-of-2 recommended). Fast-acting safe for circuit breaker and Beast gateway global pause.",
+    "owners": [
+      "TO_FILL:fast_operator_eoa_or_ens",
+      "TO_FILL:org_representative_eoa_or_ens"
+    ],
+    "threshold": 2
+  }
+}
