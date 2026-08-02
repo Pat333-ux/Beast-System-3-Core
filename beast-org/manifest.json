@@ -1,0 +1,24 @@
+{
+  "artifacts": [
+    {
+      "path": "governance/dao_charter.json",
+      "type": "governance_document",
+      "version": "0.1.0"
+    },
+    {
+      "path": "roles.json",
+      "type": "roles",
+      "version": "0.1.0"
+    },
+    {
+      "path": "workflows/governance_document_approval.json",
+      "type": "workflow",
+      "version": "0.1.0"
+    },
+    {
+      "path": "tokenomics/lucr_policy.json",
+      "type": "tokenomics",
+      "version": "0.1.0"
+    }
+  ]
+}

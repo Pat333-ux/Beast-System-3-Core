@@ -1,0 +1,9 @@
+{
+  "token": "LUCR",
+  "growth_metric": "people_growth_index",
+  "profit_constraint": "sustainable_profit",
+  "wellbeing_priority": true,
+  "shareholder_value_link": "growth_metric",
+  "description": "Policy object describing how LUCR supply/weighting should respond to people-growth and wellbeing signals. Concrete recalculation logic lives in beast-tokenomics.",
+  "version": "0.1.0"
+}

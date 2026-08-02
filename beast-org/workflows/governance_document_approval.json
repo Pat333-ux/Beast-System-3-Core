@@ -1,0 +1,11 @@
+{
+  "workflow": "governance_document_approval",
+  "description": "State machine for approving governance documents (draft => review => vote => ratified)",
+  "states": ["draft", "review", "vote", "ratified"],
+  "transitions": {
+    "draft_to_review": { "by_role": "role-ceo", "action": "submit_for_review" },
+    "review_to_vote": { "by_role": "role-taskforce-lead", "action": "submit_for_vote" },
+    "vote_to_ratified": { "by_role": "role-governance-voter", "action": "finalize_if_passed" }
+  },
+  "version": "0.1.0"
+}

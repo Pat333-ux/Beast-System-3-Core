@@ -1,0 +1,19 @@
+{
+  "org_id": "beast-org-root",
+  "name": "Beast System 3.0 — Organizational Layer",
+  "description": "Source of truth for organizational metadata (roles, governance docs, workflows, tokenomics).",
+  "modules": {
+    "governance": "../beast-governance",
+    "identity": "../beast-identity",
+    "tokenomics": "../beast-tokenomics",
+    "oracle": "../beast-oracle"
+  },
+  "artifacts": [
+    "governance/dao_charter.json",
+    "roles.json",
+    "workflows/governance_document_approval.json",
+    "tokenomics/lucr_policy.json"
+  ],
+  "version": "0.1.0",
+  "owner_repo": "Pat333-ux/Beast-System-3-Core"
+}

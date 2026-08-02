@@ -1,0 +1,35 @@
+{
+  "roles": [
+    {
+      "id": "role-ceo",
+      "name": "CEO",
+      "description": "Executive role: can propose, escalate, and approve draft policies.",
+      "wallet": null
+    },
+    {
+      "id": "role-taskforce-lead",
+      "name": "Task Force Lead",
+      "description": "Leads task forces, moves workflows from review to vote.",
+      "wallet": null
+    },
+    {
+      "id": "role-oracle-maintainer",
+      "name": "Oracle Maintainer",
+      "description": "Maintains ILunarOracle anchors and updates oracle metadata.",
+      "wallet": null
+    },
+    {
+      "id": "role-governance-voter",
+      "name": "Governance Voter",
+      "description": "A role representing voting power in governance processes.",
+      "wallet": null
+    },
+    {
+      "id": "role-health-officer",
+      "name": "Health & Wellbeing Officer",
+      "description": "Prioritizes wellbeing in operational decisions and tokenomics recalculations.",
+      "wallet": null
+    }
+  ],
+  "version": "0.1.0"
+}
