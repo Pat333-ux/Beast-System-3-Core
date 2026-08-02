@@ -16,6 +16,26 @@ High-level runbook
    - Decide token model (fixed supply | mint-with-timelock | oracle-linked dynamic).
    - Choose pinning provider (IPFS recommended) and ensure pinning credentials/access.
 
+   Current multisig placeholders (organizational identifiers):
+   - Primary guardian multisig: 0cad6a0d-1462-47eb-853e-17521d57322e (UUID placeholder)
+   - Oracle multisig: 0cad6a0d-1462-47eb-853e-17521d57322e (UUID placeholder)
+   - Emergency pause multisig: 0cad6a0d-1462-47eb-853e-17521d57322e (UUID placeholder)
+
+   == Guardian roles block ==
+   The manifest now includes a guardians block documenting organizational ownership and authority. This is an off-chain identifier and MUST be replaced with EIP-55 checksummed Ethereum addresses (0x...) or ENS names (example.safe.eth) that point to deployed Gnosis Safes before any on-chain deployment or enforcement.
+
+   Guardians block (organizational identifier):
+   {
+     "multisig_address": "0cad6a0d-1462-47eb-853e-17521d57322e",
+     "roles": [
+       "treasury_emergency_pause",
+       "timelock_override",
+       "oracle_signer_revocation",
+       "governance_cutover_approval",
+       "release_signoff_v3.0.0-rc1"
+     ]
+   }
+
 2. Implement & build on-chain
    - Implement ERC20Votes token, TimelockController (or guarded executor), Treasury, OracleRegistry.
    - Compile with Hardhat/Foundry and produce canonical ABI JSON outputs.
@@ -55,16 +75,17 @@ Recommended reviewers and labels
 - Labels: release, rc, governance, onchain
 
 Checklist to complete before merge
-- [ ] Confirm guardian multisig address(es)
+- [ ] Confirm guardian multisig address(es) — replace UUID placeholders with EVM Safe addresses
 - [ ] Choose artifact pinning provider and pin ABIs + metadata
 - [ ] Implement & pin on-chain contracts (token, timelock, treasury, oracle registry)
-- [ ] Run CI tests, security scans, and attach audit reports
+- [ ] Run CI tests, static analysis, and attach audit reports
 - [ ] Fill manifest with ABI hashes, IPFS/Swarm CIDs, and mainnet addresses
-- [ ] Multisig signoff and final tag `v3.0.0-rc1`
+- [ ] Multisig signoff and tag v3.0.0-rc1
 
 If you want, I can:
 - Open the pull request for you (I need a GitHub auth token & permission), or
 - Provide the exact PR body and reviewers to paste into the GitHub UI.
 
 Next steps
-- Let me know if you want me to open the PR for you, or name reviewers to add to the PR description. Otherwise, run the `gh pr create` command above to open the PR.
+- Replace the UUID placeholders in the manifest with real EVM addresses (0x...) after creating the Safes.
+- Add audit attachments and CI results to the PR before merging.

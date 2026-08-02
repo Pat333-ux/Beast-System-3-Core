@@ -48,8 +48,21 @@
     }
   ],
   "registry": {
+    "guardian_multisig": "0cad6a0d-1462-47eb-853e-17521d57322e",
+    "oracle_multisig": "0cad6a0d-1462-47eb-853e-17521d57322e",
+    "pause_multisig": "0cad6a0d-1462-47eb-853e-17521d57322e",
     "oracle_registry_contract": { "address": null, "networks": ["ethereum_mainnet"] },
     "dao_root": "New World Order DAO"
+  },
+  "guardians": {
+    "multisig_address": "0cad6a0d-1462-47eb-853e-17521d57322e",
+    "roles": [
+      "treasury_emergency_pause",
+      "timelock_override",
+      "oracle_signer_revocation",
+      "governance_cutover_approval",
+      "release_signoff_v3.0.0-rc1"
+    ]
   },
   "notes": {
     "artifact_pin_policy": "Pin ABIs, metadata, audits to IPFS (or Swarm) and write the CID/BZZ & ABI SHA256 into manifest and into on-chain registry.",
@@ -57,6 +70,7 @@
       "Deploy via guardian multisig (Gnosis Safe) + timelock",
       "Emergency pause & circuit breaker",
       "Signed oracle updates + staleness thresholds"
-    ]
+    ],
+    "placeholder_notice": "The guardian/oracle/pause multisig entries are currently UUID placeholders and MUST be replaced with actual EVM Safe addresses (0x...) before any on-chain deployment or enforcement. This commit documents organizational ownership but is not sufficient for mainnet enforcement."
   }
 }
