@@ -1,0 +1,62 @@
+{
+  "version": "v3.0.0-rc1",
+  "generated_at": "2026-08-02T00:00:00Z",
+  "owner": "Pat333-ux",
+  "repo": "Beast-System-3-Core",
+  "networks": ["ethereum_mainnet"],
+  "repos": [
+    {
+      "owner": "Pat333-ux",
+      "name": "Beast-System-3-Core",
+      "tag": "v3.0.0-rc1",
+      "modules": [
+        {
+          "id": "governance-kernel",
+          "path": "src/engine/governance-kernel.md",
+          "status": "coded",
+          "artifact": { "abi_hash": null, "ipfs_cid": null, "swarm_hash": null },
+          "deployed": { "ethereum_mainnet": { "address": null, "tx": null, "block": null } }
+        },
+        {
+          "id": "beast-gateway",
+          "path": "src/engine",
+          "status": "coded",
+          "runtime": { "service_url": null, "agent_adapters": ["VSCode","Cursor","agent.action_intent.v1"] }
+        },
+        {
+          "id": "onchain-token",
+          "path": "repos/Beast-Onchain (recommended)",
+          "status": "not_started",
+          "artifact": { "abi_hash": null, "ipfs_cid": null },
+          "deployed": { "ethereum_mainnet": { "address": null, "tx": null } }
+        },
+        {
+          "id": "treasury",
+          "path": "repos/Beast-Onchain",
+          "status": "not_started",
+          "artifact": { "abi_hash": null, "ipfs_cid": null },
+          "deployed": { "ethereum_mainnet": { "address": null } }
+        },
+        {
+          "id": "oracle-registry",
+          "path": "repos/Beast-Oracles (recommended)",
+          "status": "not_started",
+          "artifact": { "abi_hash": null, "ipfs_cid": null },
+          "deployed": { "ethereum_mainnet": { "address": null } }
+        }
+      ]
+    }
+  ],
+  "registry": {
+    "oracle_registry_contract": { "address": null, "networks": ["ethereum_mainnet"] },
+    "dao_root": "New World Order DAO"
+  },
+  "notes": {
+    "artifact_pin_policy": "Pin ABIs, metadata, audits to IPFS (or Swarm) and write the CID/BZZ & ABI SHA256 into manifest and into on-chain registry.",
+    "safety": [
+      "Deploy via guardian multisig (Gnosis Safe) + timelock",
+      "Emergency pause & circuit breaker",
+      "Signed oracle updates + staleness thresholds"
+    ]
+  }
+}
