@@ -1,0 +1,46 @@
+// SAIA‑GK1 — Sovereign Governance Kernel v1
+// Core execution engine for governance actions, identity resolution,
+// role binding, policy evaluation, decision flow, and artifact anchoring.
+
+import { IdentityRegistry } from "../identity/IdentityRegistry";
+import { RoleRegistry } from "../roles/RoleRegistry";
+import { PolicyEngine } from "../policy/PolicyEngine";
+import { DecisionFlow } from "../decision/DecisionFlow";
+import { DecisionLedger } from "../decision/DecisionLedger";
+import { ArtifactRegistry } from "../artifacts/ArtifactRegistry";
+
+export class GovernanceKernel {
+  constructor(
+    private identities: IdentityRegistry,
+    private roles: RoleRegistry,
+    private policies: PolicyEngine,
+    private flow: DecisionFlow,
+    private ledger: DecisionLedger,
+    private artifacts: ArtifactRegistry
+  ) {}
+
+  /**
+   * Propose a governance action.
+   * This is the sovereign entry point for all governance behavior.
+   */
+  async proposeAction(action: unknown, proposerWallet: string) {
+    const identity = this.identities.resolve(proposerWallet);
+    const boundRoles = this.roles.getRolesForIdentity(identity);
+
+    const allowed = this.policies.evaluate(action, identity, boundRoles);
+    if (!allowed) {
+      throw new Error("Action not permitted by governance policy.");
+    }
+
+    const decision = await this.flow.startDecision(action, identity, boundRoles);
+    await this.ledger.record(decision);
+    return decision;
+  }
+
+  /**
+   * Register a governance artifact (documents, declarations, federal anchors).
+   */
+  async registerArtifact(doc: unknown) {
+    return this.artifacts.register(doc);
+  }
+}
