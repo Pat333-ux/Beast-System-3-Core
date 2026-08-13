@@ -1,0 +1,77 @@
+{
+  "token": "LUCRICITY",
+  "symbol": "LUCR",
+  "class": "SAIA-Class-S",
+  "sovereignIdentity": {
+    "owner": "Pat Tarwater Jr.",
+    "dao": "New World Order DAO",
+    "ministry": "New World Order Health & Wellbeing",
+    "authorityAnchor": "0cad6a0d-1462-47eb-853e-17521d57322e",
+    "insignia": "Red Ouroboros",
+    "federalCase": "2:25-cv-00484-JPH-MJD"
+  },
+
+  "purpose": "Wellbeing-indexed governance token reflecting human development, ethical authority, trauma-prevention, and system balance.",
+
+  "metrics": {
+    "humanDevelopmentIndex": {
+      "weight": 0.30,
+      "description": "Measures contributor growth, wellbeing, stability, and skill development."
+    },
+    "systemBalanceIndex": {
+      "weight": 0.25,
+      "description": "Tracks harmony between modules, workflows, and governance kernels."
+    },
+    "ethicalAuthorityScore": {
+      "weight": 0.20,
+      "description": "Evaluates transparency, non-coercive operations, and ethical alignment."
+    },
+    "harmPreventionScore": {
+      "weight": 0.15,
+      "description": "Monitors harm detection, prevention, escalation control, and support pathways."
+    },
+    "governanceIntegrityScore": {
+      "weight": 0.10,
+      "description": "Ensures chain-of-custody, validator enforcement, and federal-record alignment."
+    }
+  },
+
+  "formula": "LUCR = (HDI * 0.30) + (SBI * 0.25) + (EAS * 0.20) + (HPS * 0.15) + (GIS * 0.10)",
+
+  "lifecycle": {
+    "minting": [
+      "Wellbeing increases",
+      "Harm is prevented",
+      "Governance is transparent",
+      "Identity remains stable",
+      "System balance is maintained"
+    ],
+    "burning": [
+      "Harm occurs",
+      "Governance violations",
+      "Identity compromise",
+      "System imbalance",
+      "Prohibited actions"
+    ]
+  },
+
+  "distribution": {
+    "modules": "Performance-based allocation",
+    "workflows": "Governance-aligned activation",
+    "contributors": "Ethical-authority weighted rewards",
+    "kernels": {
+      "SIK-3": "Identity stability bonus",
+      "SAIA-GK1": "Governance integrity bonus"
+    }
+  },
+
+  "safety": {
+    "speculativeTrading": false,
+    "externalTransfer": false,
+    "manipulationResistance": true,
+    "closedSystem": true
+  },
+
+  "status": "active",
+  "version": "LUCR-1.0.0"
+}
