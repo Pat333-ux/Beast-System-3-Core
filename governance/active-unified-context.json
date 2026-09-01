@@ -1,0 +1,9 @@
+{
+  "governanceCycle": "active",
+  "attachedManifest": "manifests/unified-manifest.json",
+  "attachedAt": "2026-09-01T00:00:00Z",
+  "event": {
+    "type": "INTEGRATION_HARMONIZATION_COMPLETED",
+    "timestamp": 1788220800000
+  }
+}
