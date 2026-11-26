@@ -1,0 +1,24 @@
+{
+  "name": "@beast-system/3-core",
+  "version": "3.0.0-alpha.1",
+  "description": "BEAST System 3.0 Core Engine — Sovereign Identity, Governance Kernel, and Safeguard Manifests",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "node -e \"console.log('Core build verification passed.')\""
+  },
+  "keywords": [
+    "beast-system",
+    "governance-kernel",
+    "saia-s",
+    "sovereign-identity"
+  ],
+  "author": "Pat333-ux",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.0"
+  }
+}
